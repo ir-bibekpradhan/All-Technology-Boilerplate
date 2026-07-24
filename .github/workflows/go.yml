@@ -1,0 +1,46 @@
+name: Go Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      go_version:
+        description: 'Go version to use'
+        required: true
+        default: '1.21'
+        type: choice
+        options:
+          - '1.20'
+          - '1.21'
+          - '1.22'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: go
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ github.event.inputs.go_version }}
+          cache-dependency-path: go/go.sum
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Verify dependencies
+        run: go mod verify
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Run tests
+        run: go test -v ./...
+
+      - name: Run go vet
+        run: go vet ./...

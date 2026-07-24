@@ -1,0 +1,660 @@
+name: Combined Multi-Stage Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      javascript_package_manager:
+        description: 'JavaScript package manager'
+        required: true
+        default: 'npm'
+        type: choice
+        options:
+          - npm
+          - pnpm
+          - yarn
+          - bun
+      python_version:
+        description: 'Python version'
+        required: true
+        default: '3.11'
+        type: choice
+        options:
+          - '3.9'
+          - '3.10'
+          - '3.11'
+          - '3.12'
+      dotnet_version:
+        description: '.NET version'
+        required: true
+        default: '8.0'
+        type: choice
+        options:
+          - '6.0'
+          - '7.0'
+          - '8.0'
+      go_version:
+        description: 'Go version'
+        required: true
+        default: '1.21'
+        type: choice
+        options:
+          - '1.20'
+          - '1.21'
+          - '1.22'
+      java_version:
+        description: 'Java version'
+        required: true
+        default: '17'
+        type: choice
+        options:
+          - '11'
+          - '17'
+          - '21'
+      php_version:
+        description: 'PHP version'
+        required: true
+        default: '8.2'
+        type: choice
+        options:
+          - '8.1'
+          - '8.2'
+          - '8.3'
+      ruby_version:
+        description: 'Ruby version'
+        required: true
+        default: '3.2'
+        type: choice
+        options:
+          - '3.0'
+          - '3.1'
+          - '3.2'
+          - '3.3'
+      skip_javascript:
+        description: 'Skip JavaScript'
+        required: false
+        default: true
+        type: boolean
+      skip_python:
+        description: 'Skip Python'
+        required: false
+        default: true
+        type: boolean
+      skip_dotnet:
+        description: 'Skip .NET'
+        required: false
+        default: true
+        type: boolean
+      skip_go:
+        description: 'Skip Go'
+        required: false
+        default: true
+        type: boolean
+      skip_java:
+        description: 'Skip Java'
+        required: false
+        default: true
+        type: boolean
+      skip_php:
+        description: 'Skip PHP'
+        required: false
+        default: true
+        type: boolean
+      skip_ruby:
+        description: 'Skip Ruby'
+        required: false
+        default: true
+        type: boolean
+
+env:
+  ENVIRONMENTS: ${{ github.event.inputs.environments }}
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  # Stage 1: Build all technologies in parallel
+  build-javascript:
+    name: Build JavaScript
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: javascript
+    if: ${{ github.event.inputs.skip_javascript != 'true' }}
+    
+    steps:
+      # ============= InvisiRisk Setup =============
+      - name: Setup InvisiRisk - Build Application Firewall
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_JAVASCRIPT }}
+      # ============= InvisiRisk Setup End =============
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        if: ${{ github.event.inputs.javascript_package_manager == 'pnpm' }}
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Bun
+        if: ${{ github.event.inputs.javascript_package_manager == 'bun' }}
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies (npm)
+        if: ${{ github.event.inputs.javascript_package_manager == 'npm' }}
+        run: npm install
+
+      - name: Install dependencies (pnpm)
+        if: ${{ github.event.inputs.javascript_package_manager == 'pnpm' }}
+        run: pnpm install
+
+      - name: Install dependencies (yarn)
+        if: ${{ github.event.inputs.javascript_package_manager == 'yarn' }}
+        run: yarn install
+
+      - name: Install dependencies (bun)
+        if: ${{ github.event.inputs.javascript_package_manager == 'bun' }}
+        run: bun install
+
+      - name: Run build
+        run: |
+          if [ "${{ github.event.inputs.javascript_package_manager }}" == "bun" ]; then
+            bun run build
+          else
+            ${{ github.event.inputs.javascript_package_manager }} run build
+          fi
+
+      - name: Run tests
+        run: |
+          if [ "${{ github.event.inputs.javascript_package_manager }}" == "bun" ]; then
+            bun test
+          else
+            ${{ github.event.inputs.javascript_package_manager }} test
+          fi
+
+      # ============= InvisiRisk Cleanup =============
+      - name: Cleanup Build Application Firewall
+        if: always()
+        uses: invisirisk/pse-action@latest
+        with:
+          cleanup: "true"
+      # ============= InvisiRisk Cleanup End =============
+
+  build-python:
+    name: Build Python
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python
+    if: ${{ github.event.inputs.skip_python != 'true' }}
+    
+    steps:
+      # ============= InvisiRisk Setup =============
+      - name: Setup InvisiRisk - Build Application Firewall
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_PYTHON }}
+      # ============= InvisiRisk Setup End =============
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ github.event.inputs.python_version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install  --no-cache-dir -r requirements.txt
+
+      - name: Run linting
+        run: |
+          flake8 src/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 src/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Run tests
+        run: pytest tests/ -v
+
+      - name: Build package
+        run: pip install build && python -m build
+
+      # ============= InvisiRisk Cleanup =============
+      - name: Cleanup Build Application Firewall
+        if: always()
+        uses: invisirisk/pse-action@latest
+        with:
+          cleanup: "true"
+      # ============= InvisiRisk Cleanup End =============
+
+  build-dotnet:
+    name: Build .NET
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dotnet
+    if: ${{ github.event.inputs.skip_dotnet != 'true' }}
+    
+    steps:
+      # ============= InvisiRisk Setup =============
+      - name: Setup InvisiRisk - Build Application Firewall
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_DOTNET }}
+      # ============= InvisiRisk Setup End =============
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ github.event.inputs.dotnet_version }}.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build DotnetBoilerplate.sln --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test Tests/DotnetBoilerplate.Tests.csproj --no-build --verbosity normal || dotnet test Tests/DotnetBoilerplate.Tests.csproj --verbosity normal
+
+      # ============= InvisiRisk Cleanup =============
+      - name: Cleanup Build Application Firewall
+        if: always()
+        uses: invisirisk/pse-action@latest
+        with:
+          cleanup: "true"
+      # ============= InvisiRisk Cleanup End =============
+
+  build-go:
+    name: Build Go
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: go
+    if: ${{ github.event.inputs.skip_go != 'true' }}
+    
+    steps:
+      # ============= InvisiRisk Setup =============
+      - name: Setup InvisiRisk - Build Application Firewall
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_GO }}
+      # ============= InvisiRisk Setup End =============
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ github.event.inputs.go_version }}
+
+      - name: Download dependencies
+        run: |
+          pwd
+          ls -la
+          go mod download
+
+      - name: Verify dependencies
+        run: go mod verify
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Run tests
+        run: go test -v ./...
+
+      - name: Run go vet
+        run: go vet ./...
+
+      # ============= InvisiRisk Cleanup =============
+      - name: Cleanup Build Application Firewall
+        if: always()
+        uses: invisirisk/pse-action@latest
+        with:
+          cleanup: "true"
+      # ============= InvisiRisk Cleanup End =============
+
+  build-java:
+    name: Build Java
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: java-maven
+    if: ${{ github.event.inputs.skip_java != 'true' }}
+    
+    steps:
+      # ============= InvisiRisk Setup =============
+      - name: Setup InvisiRisk - Build Application Firewall
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_JAVA }}
+      # ============= InvisiRisk Setup End =============
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ github.event.inputs.java_version }}
+          distribution: 'temurin'
+
+      - name: Build with Maven
+        run: mvn -U clean compile
+
+      - name: Run tests
+        run: mvn test
+
+      - name: Package
+        run: mvn package -DskipTests
+
+      # ============= InvisiRisk Cleanup =============
+      - name: Cleanup Build Application Firewall
+        if: always()
+        uses: invisirisk/pse-action@latest
+        with:
+          cleanup: "true"
+      # ============= InvisiRisk Cleanup End =============
+
+  build-php:
+    name: Build PHP
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: php
+    if: ${{ github.event.inputs.skip_php != 'true' }}
+    
+    steps:
+      # ============= InvisiRisk Setup =============
+      - name: Setup InvisiRisk - Build Application Firewall
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_PHP }}
+      # ============= InvisiRisk Setup End =============
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ github.event.inputs.php_version }}
+          extensions: mbstring, xml, ctype, iconv
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run static analysis
+        run: vendor/bin/phpstan analyse src --level=5 || true
+
+      - name: Run tests
+        run: vendor/bin/phpunit tests/
+
+      # ============= InvisiRisk Cleanup =============
+      - name: Cleanup Build Application Firewall
+        if: always()
+        uses: invisirisk/pse-action@latest
+        with:
+          cleanup: "true"
+      # ============= InvisiRisk Cleanup End =============
+
+  build-ruby:
+    name: Build Ruby
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ruby
+    if: ${{ github.event.inputs.skip_ruby != 'true' }}
+    
+    steps:
+      # ============= InvisiRisk Setup =============
+      - name: Setup InvisiRisk - Build Application Firewall
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_RUBY }}
+      # ============= InvisiRisk Setup End =============
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ github.event.inputs.ruby_version }}
+          working-directory: ruby
+          bundler-cache: false
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Run linting
+        run: bundle exec rubocop --format progress || true
+
+      - name: Run tests
+        run: bundle exec rspec spec/
+
+      # ============= InvisiRisk Cleanup =============
+      - name: Cleanup Build Application Firewall
+        if: always()
+        uses: invisirisk/pse-action@latest
+        with:
+          cleanup: "true"
+      # ============= InvisiRisk Cleanup End =============
+
+  # Stage 2: Aggregate build results and prepare for deployment
+  prepare-deployment:
+    name: Prepare Deployment
+    runs-on: ubuntu-latest
+    needs:
+      - build-javascript
+      - build-python
+      - build-dotnet
+      - build-go
+      - build-java
+      - build-php
+      - build-ruby
+    if: always() && (needs.build-javascript.result == 'success' || needs.build-python.result == 'success' || needs.build-dotnet.result == 'success' || needs.build-go.result == 'success' || needs.build-java.result == 'success' || needs.build-php.result == 'success' || needs.build-ruby.result == 'success')
+    
+    outputs:
+      javascript_status: ${{ needs.build-javascript.result }}
+      python_status: ${{ needs.build-python.result }}
+      dotnet_status: ${{ needs.build-dotnet.result }}
+      go_status: ${{ needs.build-go.result }}
+      java_status: ${{ needs.build-java.result }}
+      php_status: ${{ needs.build-php.result }}
+      ruby_status: ${{ needs.build-ruby.result }}
+      successful_builds: ${{ steps.build-summary.outputs.successful }}
+      failed_builds: ${{ steps.build-summary.outputs.failed }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create build summary
+        id: build-summary
+        run: |
+          successful=""
+          failed=""
+          
+          if [ "${{ needs.build-javascript.result }}" == "success" ]; then
+            successful="$successful javascript"
+          elif [ "${{ needs.build-javascript.result }}" == "failure" ]; then
+            failed="$failed javascript"
+          fi
+          
+          if [ "${{ needs.build-python.result }}" == "success" ]; then
+            successful="$successful python"
+          elif [ "${{ needs.build-python.result }}" == "failure" ]; then
+            failed="$failed python"
+          fi
+          
+          if [ "${{ needs.build-dotnet.result }}" == "success" ]; then
+            successful="$successful dotnet"
+          elif [ "${{ needs.build-dotnet.result }}" == "failure" ]; then
+            failed="$failed dotnet"
+          fi
+          
+          if [ "${{ needs.build-go.result }}" == "success" ]; then
+            successful="$successful go"
+          elif [ "${{ needs.build-go.result }}" == "failure" ]; then
+            failed="$failed go"
+          fi
+          
+          if [ "${{ needs.build-java.result }}" == "success" ]; then
+            successful="$successful java"
+          elif [ "${{ needs.build-java.result }}" == "failure" ]; then
+            failed="$failed java"
+          fi
+          
+          if [ "${{ needs.build-php.result }}" == "success" ]; then
+            successful="$successful php"
+          elif [ "${{ needs.build-php.result }}" == "failure" ]; then
+            failed="$failed php"
+          fi
+          
+          if [ "${{ needs.build-ruby.result }}" == "success" ]; then
+            successful="$successful ruby"
+          elif [ "${{ needs.build-ruby.result }}" == "failure" ]; then
+            failed="$failed ruby"
+          fi
+          
+          echo "successful=$successful" >> $GITHUB_OUTPUT
+          echo "failed=$failed" >> $GITHUB_OUTPUT
+          
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Successful builds: $successful" >> $GITHUB_STEP_SUMMARY
+          echo "❌ Failed builds: $failed" >> $GITHUB_STEP_SUMMARY
+
+      - name: Create deployment artifacts
+        run: |
+          mkdir -p deployment-artifacts
+          
+          # Create a manifest file with build information
+          cat > deployment-artifacts/build-manifest.json << EOF
+          {
+            "build_id": "${{ github.run_id }}",
+            "commit": "${{ github.sha }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "environments": "${{ env.ENVIRONMENTS }}",
+            "builds": {
+              "javascript": {
+                "status": "${{ needs.build-javascript.result }}",
+                "package_manager": "${{ github.event.inputs.javascript_package_manager }}"
+              },
+              "python": {
+                "status": "${{ needs.build-python.result }}",
+                "version": "${{ github.event.inputs.python_version }}"
+              },
+              "dotnet": {
+                "status": "${{ needs.build-dotnet.result }}",
+                "version": "${{ github.event.inputs.dotnet_version }}"
+              },
+              "go": {
+                "status": "${{ needs.build-go.result }}",
+                "version": "${{ github.event.inputs.go_version }}"
+              },
+              "java": {
+                "status": "${{ needs.build-java.result }}",
+                "version": "${{ github.event.inputs.java_version }}"
+              },
+              "php": {
+                "status": "${{ needs.build-php.result }}",
+                "version": "${{ github.event.inputs.php_version }}"
+              },
+              "ruby": {
+                "status": "${{ needs.build-ruby.result }}",
+                "version": "${{ github.event.inputs.ruby_version }}"
+              }
+            }
+          }
+          EOF
+
+      - name: Upload deployment artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-manifest
+          path: deployment-artifacts/
+          retention-days: 30
+
+  # ============= InvisiRisk Analytics Job =============
+  gather_analytics:
+    runs-on: ubuntu-latest
+    name: Gather Analytics
+    needs: [prepare-deployment]
+    steps:
+      - name: Gather Status for build-javascript
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_JAVASCRIPT }}
+          send_job_status: "true"
+
+      - name: Gather Status for build-python
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_PYTHON }}
+          send_job_status: "true"
+
+      - name: Gather Status for build-dotnet
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_DOTNET }}
+          send_job_status: "true"
+
+      - name: Gather Status for build-go
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_GO }}
+          send_job_status: "true"
+
+      - name: Gather Status for build-java
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_JAVA }}
+          send_job_status: "true"
+
+      - name: Gather Status for build-php
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_PHP }}
+          send_job_status: "true"
+
+      - name: Gather Status for build-ruby
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_BUILD_RUBY }}
+          send_job_status: "true"
+  # ============= InvisiRisk Analytics Job End =============

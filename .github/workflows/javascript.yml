@@ -1,0 +1,75 @@
+name: JavaScript Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      package_manager:
+        description: 'Package manager to use'
+        required: true
+        default: 'npm'
+        type: choice
+        options:
+          - npm
+          - pnpm
+          - yarn
+          - bun
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: javascript
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        if: ${{ github.event.inputs.package_manager == 'pnpm' }}
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Bun
+        if: ${{ github.event.inputs.package_manager == 'bun' }}
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies (npm)
+        if: ${{ github.event.inputs.package_manager == 'npm' }}
+        run: npm ci
+
+      - name: Install dependencies (pnpm)
+        if: ${{ github.event.inputs.package_manager == 'pnpm' }}
+        run: pnpm install
+
+      - name: Install dependencies (yarn)
+        if: ${{ github.event.inputs.package_manager == 'yarn' }}
+        run: yarn install
+
+      - name: Install dependencies (bun)
+        if: ${{ github.event.inputs.package_manager == 'bun' }}
+        run: bun install
+
+      - name: Run build
+        run: |
+          if [ "${{ github.event.inputs.package_manager }}" == "bun" ]; then
+            bun run build
+          else
+            ${{ github.event.inputs.package_manager }} run build
+          fi
+
+      - name: Run tests
+        run: |
+          if [ "${{ github.event.inputs.package_manager }}" == "bun" ]; then
+            bun test
+          else
+            ${{ github.event.inputs.package_manager }} test
+          fi

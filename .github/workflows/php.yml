@@ -1,0 +1,45 @@
+name: PHP Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      php_version:
+        description: 'PHP version to use'
+        required: true
+        default: '8.2'
+        type: choice
+        options:
+          - '8.1'
+          - '8.2'
+          - '8.3'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: php
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ github.event.inputs.php_version }}
+          extensions: mbstring, xml, ctype, iconv
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run static analysis
+        run: vendor/bin/phpstan analyse src --level=5 || true
+
+      - name: Run tests
+        run: vendor/bin/phpunit tests/

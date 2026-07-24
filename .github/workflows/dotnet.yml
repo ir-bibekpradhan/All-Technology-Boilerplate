@@ -1,0 +1,39 @@
+name: .NET Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      dotnet_version:
+        description: '.NET version to use'
+        required: true
+        default: '8.0'
+        type: choice
+        options:
+          - '6.0'
+          - '7.0'
+          - '8.0'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dotnet
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ github.event.inputs.dotnet_version }}.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test Tests/DotnetBoilerplate.Tests.csproj --no-build --verbosity normal || dotnet test Tests/DotnetBoilerplate.Tests.csproj --verbosity normal

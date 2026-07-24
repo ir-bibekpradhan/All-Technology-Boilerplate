@@ -1,0 +1,42 @@
+name: Ruby Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      ruby_version:
+        description: 'Ruby version to use'
+        required: true
+        default: '3.2'
+        type: choice
+        options:
+          - '3.0'
+          - '3.1'
+          - '3.2'
+          - '3.3'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ruby
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ github.event.inputs.ruby_version }}
+          bundler-cache: false
+          working-directory: ruby
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Run linting
+        run: bundle exec rubocop --format progress || true
+
+      - name: Run tests
+        run: bundle exec rspec spec/
