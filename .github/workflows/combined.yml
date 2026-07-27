@@ -152,13 +152,17 @@ jobs:
       - name: Build & test
         working-directory: go
         run: |
+          # Container runs as root but the checkout is owned by the runner user (uid 1001);
+          # git refuses the repo ("dubious ownership"), which breaks Go's VCS stamping.
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           pwd
           ls -la
           go mod download
           go mod verify
-          go build -v ./...
-          go test -v ./...
+          go build -buildvcs=false -v ./...
+          go test -buildvcs=false -v ./...
           go vet ./...
+
 
   build-java:
     if: ${{ inputs.SKIP_JAVA != true }}
