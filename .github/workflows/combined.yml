@@ -81,8 +81,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@develop
         with:
-          api_url: "https://app.dev.invisirisk.com"
-          app_token: Dr36xVcIU23844WqkDx4W2ulJDxSxUvm-n75ptY4vJc0GkvE31ahuLfMim-UwRieTLJpmoez8s9iihojvyOACA
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
       - name: Build & test
         working-directory: javascript
         run: |
@@ -104,8 +104,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@develop
         with:
-          api_url: "https://app.dev.invisirisk.com"
-          app_token: Dr36xVcIU23844WqkDx4W2ulJDxSxUvm-n75ptY4vJc0GkvE31ahuLfMim-UwRieTLJpmoez8s9iihojvyOACA
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
       - name: Build & test
         working-directory: python
         run: |
@@ -127,8 +127,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@develop
         with:
-          api_url: "https://app.dev.invisirisk.com"
-          app_token: Dr36xVcIU23844WqkDx4W2ulJDxSxUvm-n75ptY4vJc0GkvE31ahuLfMim-UwRieTLJpmoez8s9iihojvyOACA
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
       - name: Build & test
         working-directory: dotnet
         run: |
@@ -147,8 +147,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@develop
         with:
-          api_url: "https://app.dev.invisirisk.com"
-          app_token: Dr36xVcIU23844WqkDx4W2ulJDxSxUvm-n75ptY4vJc0GkvE31ahuLfMim-UwRieTLJpmoez8s9iihojvyOACA
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
       - name: Build & test
         working-directory: go
         run: |
@@ -175,8 +175,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@develop
         with:
-          api_url: "https://app.dev.invisirisk.com"
-          app_token: Dr36xVcIU23844WqkDx4W2ulJDxSxUvm-n75ptY4vJc0GkvE31ahuLfMim-UwRieTLJpmoez8s9iihojvyOACA
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
       - name: Build & test
         working-directory: java-maven
         run: |
@@ -197,8 +197,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@develop
         with:
-          api_url: "https://app.dev.invisirisk.com"
-          app_token: Dr36xVcIU23844WqkDx4W2ulJDxSxUvm-n75ptY4vJc0GkvE31ahuLfMim-UwRieTLJpmoez8s9iihojvyOACA
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
       - name: Build & test
         working-directory: php
         run: |
@@ -218,8 +218,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@develop
         with:
-          api_url: "https://app.dev.invisirisk.com"
-          app_token: Dr36xVcIU23844WqkDx4W2ulJDxSxUvm-n75ptY4vJc0GkvE31ahuLfMim-UwRieTLJpmoez8s9iihojvyOACA
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
       - name: Build & test
         working-directory: ruby
         run: |
