@@ -90,7 +90,7 @@ jobs:
             pnpm) npm install -g pnpm && pnpm install && pnpm run build && pnpm test ;;
             yarn) yarn install && yarn run build && yarn test ;;
             bun)  npm install -g bun && bun install && bun run build && bun test ;;
-            *)    npm install && npm run build && npm test ;;
+            *)    npm install --legacy-peer-deps && npm run build && npm test ;;
           esac
 
   build-python:
