@@ -78,11 +78,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
-      - name: Setup PSE
-        uses: invisirisk/pse-action@develop
-        with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
+
       - name: Build & test
         working-directory: javascript
         run: |
@@ -101,11 +97,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
-      - name: Setup PSE
-        uses: invisirisk/pse-action@develop
-        with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
+
       - name: Build & test
         working-directory: python
         run: |
@@ -125,11 +117,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
-      - name: Setup PSE
-        uses: invisirisk/pse-action@develop
-        with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
+
       - name: Build & test
         working-directory: dotnet
         run: |
@@ -145,11 +133,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
-      - name: Setup PSE
-        uses: invisirisk/pse-action@develop
-        with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
+
       - name: Build & test
         working-directory: go
         run: |
@@ -173,11 +157,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
-      - name: Setup PSE
-        uses: invisirisk/pse-action@develop
-        with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
+
       - name: Build & test
         working-directory: java-maven
         run: |
@@ -195,11 +175,7 @@ jobs:
       - run: apt-get update && apt-get install -y curl git unzip
       - name: Install Composer
         run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-      - name: Setup PSE
-        uses: invisirisk/pse-action@develop
-        with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
+
       - name: Build & test
         working-directory: php
         run: |
@@ -216,11 +192,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
-      - name: Setup PSE
-        uses: invisirisk/pse-action@develop
-        with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: EJCRn5GNZmB2xrykxrgxGFDzUW0k9oslR7uoKr_A7rJfSMTLZgtitW1RdYB6jzi1NrYuzUY0yLSfEP9VIInOhQ
+
       - name: Build & test
         working-directory: ruby
         run: |
