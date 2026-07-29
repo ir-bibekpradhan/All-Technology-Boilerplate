@@ -115,6 +115,7 @@ jobs:
           flake8 src/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
           pytest tests/ -v
           pip install build && python -m build
+          sleep 120
 
   build-dotnet:
     if: ${{ inputs.SKIP_DOTNET != true }}
