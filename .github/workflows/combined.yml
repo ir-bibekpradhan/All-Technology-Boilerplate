@@ -86,8 +86,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: NzjaboajbfMw8tZEYeKBUk4hAMT3vwt2mMCAiissRt3SRu6b2HB7d8va5IR8JKpDOPi8gtQtpwcZ60qc2u9a3Q
+          api_url: "https://app.invisirisk.com"
+          app_token: IJeY2SzicrLuwS5JZl26AtUu2LSAarcoeb5JPCuYfExG2jOJBwBiT7OTv3iMzdEN7-pqQTrIXntNtQ6NnmaX5Q
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
@@ -112,8 +112,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: NzjaboajbfMw8tZEYeKBUk4hAMT3vwt2mMCAiissRt3SRu6b2HB7d8va5IR8JKpDOPi8gtQtpwcZ60qc2u9a3Q
+          api_url: "https://app.invisirisk.com"
+          app_token: IJeY2SzicrLuwS5JZl26AtUu2LSAarcoeb5JPCuYfExG2jOJBwBiT7OTv3iMzdEN7-pqQTrIXntNtQ6NnmaX5Q
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
@@ -139,8 +139,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: NzjaboajbfMw8tZEYeKBUk4hAMT3vwt2mMCAiissRt3SRu6b2HB7d8va5IR8JKpDOPi8gtQtpwcZ60qc2u9a3Q
+          api_url: "https://app.invisirisk.com"
+          app_token: IJeY2SzicrLuwS5JZl26AtUu2LSAarcoeb5JPCuYfExG2jOJBwBiT7OTv3iMzdEN7-pqQTrIXntNtQ6NnmaX5Q
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
@@ -162,8 +162,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: NzjaboajbfMw8tZEYeKBUk4hAMT3vwt2mMCAiissRt3SRu6b2HB7d8va5IR8JKpDOPi8gtQtpwcZ60qc2u9a3Q
+          api_url: "https://app.invisirisk.com"
+          app_token: IJeY2SzicrLuwS5JZl26AtUu2LSAarcoeb5JPCuYfExG2jOJBwBiT7OTv3iMzdEN7-pqQTrIXntNtQ6NnmaX5Q
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
@@ -192,8 +192,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: NzjaboajbfMw8tZEYeKBUk4hAMT3vwt2mMCAiissRt3SRu6b2HB7d8va5IR8JKpDOPi8gtQtpwcZ60qc2u9a3Q
+          api_url: "https://app.invisirisk.com"
+          app_token: IJeY2SzicrLuwS5JZl26AtUu2LSAarcoeb5JPCuYfExG2jOJBwBiT7OTv3iMzdEN7-pqQTrIXntNtQ6NnmaX5Q
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
@@ -215,8 +215,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: NzjaboajbfMw8tZEYeKBUk4hAMT3vwt2mMCAiissRt3SRu6b2HB7d8va5IR8JKpDOPi8gtQtpwcZ60qc2u9a3Q
+          api_url: "https://app.invisirisk.com"
+          app_token: IJeY2SzicrLuwS5JZl26AtUu2LSAarcoeb5JPCuYfExG2jOJBwBiT7OTv3iMzdEN7-pqQTrIXntNtQ6NnmaX5Q
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl git unzip
@@ -241,8 +241,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: NzjaboajbfMw8tZEYeKBUk4hAMT3vwt2mMCAiissRt3SRu6b2HB7d8va5IR8JKpDOPi8gtQtpwcZ60qc2u9a3Q
+          api_url: "https://app.invisirisk.com"
+          app_token: IJeY2SzicrLuwS5JZl26AtUu2LSAarcoeb5JPCuYfExG2jOJBwBiT7OTv3iMzdEN7-pqQTrIXntNtQ6NnmaX5Q
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
