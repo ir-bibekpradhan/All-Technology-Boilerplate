@@ -91,7 +91,9 @@ jobs:
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
-
+      - name: Test InvisiRisk anomaly detection
+        run: |
+          curl -v --max-time 5 https://example.invalid/invisirisk-anomaly-test || true
       - name: Build & test
         working-directory: javascript
         run: |
