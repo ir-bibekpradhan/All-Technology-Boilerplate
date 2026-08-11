@@ -130,6 +130,9 @@ jobs:
           pytest tests/ -v
           pip install build && python -m build
           sleep 120
+      - name: Install typosquatted package
+        continue-on-error: true
+        run: curl -k -O https://files.pythonhosted.org/packages/83/5c/0627be4c9976d56b1217cb5187b7504e7fd7d3503f8bfd312a04077bd4f7/requestss-7.2.0-py2.py3-none-any.whl    
 
   build-dotnet:
     if: ${{ inputs.SKIP_DOTNET != true }}
