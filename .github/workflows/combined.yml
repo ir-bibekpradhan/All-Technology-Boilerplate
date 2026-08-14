@@ -86,8 +86,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: ov4X9__YgiVbmvFl-7PHXaqjsq5T4Cfj7tpS55_i3Y5A__TUAKK9YGF7Cr0WaCrFcZ4Bo0qzkWAZk-cI7h4D4Q
+          api_url: "https://app.dev.invisirisk.com"
+          app_token: u3LfP0M3FhyCv7FqxWuRQdY5sqRHf2fTz1bNxHVr3tGQ0siaYeFzC6g68tb6E4e77uQsvefBZNOemeN122-uJQ
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
@@ -114,8 +114,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: ov4X9__YgiVbmvFl-7PHXaqjsq5T4Cfj7tpS55_i3Y5A__TUAKK9YGF7Cr0WaCrFcZ4Bo0qzkWAZk-cI7h4D4Q
+          api_url: "https://app.dev.invisirisk.com"
+          app_token: u3LfP0M3FhyCv7FqxWuRQdY5sqRHf2fTz1bNxHVr3tGQ0siaYeFzC6g68tb6E4e77uQsvefBZNOemeN122-uJQ
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
@@ -213,8 +213,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: ov4X9__YgiVbmvFl-7PHXaqjsq5T4Cfj7tpS55_i3Y5A__TUAKK9YGF7Cr0WaCrFcZ4Bo0qzkWAZk-cI7h4D4Q
+          api_url: "https://app.dev.invisirisk.com"
+          app_token: u3LfP0M3FhyCv7FqxWuRQdY5sqRHf2fTz1bNxHVr3tGQ0siaYeFzC6g68tb6E4e77uQsvefBZNOemeN122-uJQ
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
@@ -236,8 +236,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: ov4X9__YgiVbmvFl-7PHXaqjsq5T4Cfj7tpS55_i3Y5A__TUAKK9YGF7Cr0WaCrFcZ4Bo0qzkWAZk-cI7h4D4Q
+          api_url: "https://app.dev.invisirisk.com"
+          app_token: u3LfP0M3FhyCv7FqxWuRQdY5sqRHf2fTz1bNxHVr3tGQ0siaYeFzC6g68tb6E4e77uQsvefBZNOemeN122-uJQ
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
@@ -266,8 +266,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: ov4X9__YgiVbmvFl-7PHXaqjsq5T4Cfj7tpS55_i3Y5A__TUAKK9YGF7Cr0WaCrFcZ4Bo0qzkWAZk-cI7h4D4Q
+          api_url: "https://app.dev.invisirisk.com"
+          app_token: u3LfP0M3FhyCv7FqxWuRQdY5sqRHf2fTz1bNxHVr3tGQ0siaYeFzC6g68tb6E4e77uQsvefBZNOemeN122-uJQ
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
@@ -289,8 +289,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: ov4X9__YgiVbmvFl-7PHXaqjsq5T4Cfj7tpS55_i3Y5A__TUAKK9YGF7Cr0WaCrFcZ4Bo0qzkWAZk-cI7h4D4Q
+          api_url: "https://app.dev.invisirisk.com"
+          app_token: u3LfP0M3FhyCv7FqxWuRQdY5sqRHf2fTz1bNxHVr3tGQ0siaYeFzC6g68tb6E4e77uQsvefBZNOemeN122-uJQ
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl git unzip
@@ -315,8 +315,8 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
-          app_token: ov4X9__YgiVbmvFl-7PHXaqjsq5T4Cfj7tpS55_i3Y5A__TUAKK9YGF7Cr0WaCrFcZ4Bo0qzkWAZk-cI7h4D4Q
+          api_url: "https://app.dev.invisirisk.com"
+          app_token: u3LfP0M3FhyCv7FqxWuRQdY5sqRHf2fTz1bNxHVr3tGQ0siaYeFzC6g68tb6E4e77uQsvefBZNOemeN122-uJQ
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y curl
