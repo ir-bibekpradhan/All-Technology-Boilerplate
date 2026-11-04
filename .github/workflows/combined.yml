@@ -86,7 +86,7 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.invisirisk.com"
+          api_url: "https://app.stage.invisirisk.com"
           app_token: 9VIhyJEMVb39Vxy7XJhK2EKqB4X-voH9tJeAHVtbjNW3FsbRlsnZ8djWQF51Qcg9lOllEsnC5x9Yq8tU_tOhbw
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
@@ -114,7 +114,7 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.invisirisk.com"
+          api_url: "https://app.stage.invisirisk.com"
           app_token: 9VIhyJEMVb39Vxy7XJhK2EKqB4X-voH9tJeAHVtbjNW3FsbRlsnZ8djWQF51Qcg9lOllEsnC5x9Yq8tU_tOhbw
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
@@ -213,7 +213,7 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.invisirisk.com"
+          api_url: "https://app.stage.invisirisk.com"
           app_token: 9VIhyJEMVb39Vxy7XJhK2EKqB4X-voH9tJeAHVtbjNW3FsbRlsnZ8djWQF51Qcg9lOllEsnC5x9Yq8tU_tOhbw
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
@@ -236,7 +236,7 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.invisirisk.com"
+          api_url: "https://app.stage.invisirisk.com"
           app_token: 9VIhyJEMVb39Vxy7XJhK2EKqB4X-voH9tJeAHVtbjNW3FsbRlsnZ8djWQF51Qcg9lOllEsnC5x9Yq8tU_tOhbw
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
@@ -266,7 +266,7 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.invisirisk.com"
+          api_url: "https://app.stage.invisirisk.com"
           app_token: 9VIhyJEMVb39Vxy7XJhK2EKqB4X-voH9tJeAHVtbjNW3FsbRlsnZ8djWQF51Qcg9lOllEsnC5x9Yq8tU_tOhbw
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
@@ -289,7 +289,7 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.invisirisk.com"
+          api_url: "https://app.stage.invisirisk.com"
           app_token: 9VIhyJEMVb39Vxy7XJhK2EKqB4X-voH9tJeAHVtbjNW3FsbRlsnZ8djWQF51Qcg9lOllEsnC5x9Yq8tU_tOhbw
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
@@ -315,7 +315,7 @@ jobs:
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.invisirisk.com"
+          api_url: "https://app.stage.invisirisk.com"
           app_token: 9VIhyJEMVb39Vxy7XJhK2EKqB4X-voH9tJeAHVtbjNW3FsbRlsnZ8djWQF51Qcg9lOllEsnC5x9Yq8tU_tOhbw
       # ============= InvisiRisk Setup End =============
       - uses: actions/checkout@v4
