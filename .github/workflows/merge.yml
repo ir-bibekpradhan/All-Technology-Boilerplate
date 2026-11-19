@@ -1,4 +1,4 @@
-  name: "IR One Request One Response"
+  name: "Sanity Build"
   
   on:
     workflow_dispatch:
