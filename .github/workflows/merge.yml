@@ -1,29 +1,31 @@
-name: "IR  Package Test"
+  name: "IR One Request One Response"
   
-on:
-  workflow_dispatch:
+  on:
+    workflow_dispatch:
   
-permissions:
+  permissions:
     checks: write
     actions: read
     contents: read
     id-token: write
   
-jobs:
-    vulnerable-package:
+  jobs:
+    one-request-one-response:
       runs-on: ubuntu-latest
       container:
         image: python:3.11
       steps:
+        # ============= InvisiRisk Setup =============
         - name: Setup PSE
           uses: invisirisk/pse-action@latest
           with:
             api_url: "https://app.invisirisk.com"
             app_token: ofQqVg-9_Vcv96Oc7DfMQusKkHz7xnsk1TaWgNBOj6vEPc1olC5Kzc_iZqiPP_xMAXzPkZkxKx0LGMNNl66RWw
+        # ============= InvisiRisk Setup End =============
   
-        # 1 request -> 1 response (the starlette 0.37.2 wheel)
+        # 1 request (GET wheel) -> 1 response (200 OK + wheel file)
         - name: Download starlette 0.37.2
           run: |
             curl -sS -o starlette-0.37.2-py3-none-any.whl \
-              -w "status=%{http_code} type=%{content_type} size=%{size_download}\n" \
+              -w "status=%{http_code} size=%{size_download}\n" \
               https://files.pythonhosted.org/packages/fd/18/31fa32ed6c68ba66220204ef0be798c349d0a20c1901f9d4a794e08c76d8/starlette-0.37.2-py3-none-any.whl
