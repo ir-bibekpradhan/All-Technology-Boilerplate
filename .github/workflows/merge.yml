@@ -1,4 +1,4 @@
-  name: "Build BE"
+  name: "IR Minimal Request Test"
   
   on:
     workflow_dispatch:
@@ -10,7 +10,7 @@
     id-token: write
   
   jobs:
-    response-heavy:
+    minimal-request:
       runs-on: ubuntu-latest
       container:
         image: python:3.11
@@ -23,30 +23,13 @@
             app_token: ofQqVg-9_Vcv96Oc7DfMQusKkHz7xnsk1TaWgNBOj6vEPc1olC5Kzc_iZqiPP_xMAXzPkZkxKx0LGMNNl66RWw
         # ============= InvisiRisk Setup End =============
   
-        - uses: actions/checkout@v4
+        # No checkout, no apt-get, no pip: these each add many requests.
   
-        # 1 request -> interim "100 Continue" + final "200 OK"
-        - name: 100-continue (2 responses per request)
+        # 1 request -> "100 Continue" + "200 OK"
+        - name: One request, two responses
           run: |
-            head -c 2000000 /dev/zero | tr '\0' 'a' > body.txt
-            curl -s -o /dev/null -H "Expect: 100-continue" \
-              --data-binary @body.txt https://httpbin.org/post
-  
-        # 1 command -> 5 redirect (302) responses + 1 final 200
-        - name: Redirect chain
-          run: curl -sL -o /dev/null https://httpbin.org/redirect/5
-  
-        # Several partial (206) responses over reused connection
-        - name: Range requests
-          run: |
-            curl -s -o /dev/null -H "Range: bytes=0-99" \
-                 -o /dev/null -H "Range: bytes=100-199" \
-                 https://httpbin.org/range/1024 https://httpbin.org/range/1024
-  
-        # Streamed response: one request, many chunks
-        - name: Streamed response
-          run: curl -s -o /dev/null https://httpbin.org/stream/50
-  
-        # Single clean GET for baseline
-        - name: Single GET
-          run: curl -s -o /dev/null https://httpbin.org/get
+            head -c 1000000 /dev/zero | tr '\0' 'a' > body.txt
+            curl -v --http1.1 -o /dev/null \
+              -H "Expect: 100-continue" \
+              --data-binary @body.txt \
+              https://httpbin.org/post 2>&1 | grep -E "^< HTTP/"
