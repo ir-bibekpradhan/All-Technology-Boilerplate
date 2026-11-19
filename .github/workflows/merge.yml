@@ -20,7 +20,7 @@
           uses: invisirisk/pse-action@latest
           with:
             api_url: "https://app.invisirisk.com"
-            app_token: ofQqVg-9_Vcv96Oc7DfMQusKkHz7xnsk1TaWgNBOj6vEPc1olC5Kzc_iZqiPP_xMAXzPkZkxKx0LGMNNl66RWw
+            app_token: NfJfTbBpptuAl8pVx3DdfLxRpA8B7zrVkt1LMZrN5CluP7POkX8VjannKrYiZE3ZOSBO1mFhu0GpCBv14HrWGw
         # ============= InvisiRisk Setup End =============
   
         - name: Install typosquatted package
