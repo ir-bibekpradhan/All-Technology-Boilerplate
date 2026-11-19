@@ -1,4 +1,4 @@
-name: "Combined Multi-Stage Deployment"
+name: "Multi-Stage Automation Deployment"
 
 on:
   workflow_dispatch:
