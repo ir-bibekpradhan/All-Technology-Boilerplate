@@ -1,4 +1,4 @@
-  name: "IR Response Policy Test"
+name: "IR Vulnerable Package Test"
   
   on:
     workflow_dispatch:
@@ -10,7 +10,7 @@
     id-token: write
   
   jobs:
-    response-policy:
+    vulnerable-package:
       runs-on: ubuntu-latest
       container:
         image: python:3.11
@@ -21,9 +21,9 @@
             api_url: "https://app.invisirisk.com"
             app_token: ofQqVg-9_Vcv96Oc7DfMQusKkHz7xnsk1TaWgNBOj6vEPc1olC5Kzc_iZqiPP_xMAXzPkZkxKx0LGMNNl66RWw
   
-        # 1 request -> response is 2048 bytes, type application/octet-stream
-        - name: One request with a response the policy can match
+        # 1 request -> 1 response (the starlette 0.37.2 wheel)
+        - name: Download starlette 0.37.2
           run: |
-            curl -sS -o out.bin \
+            curl -sS -o starlette-0.37.2-py3-none-any.whl \
               -w "status=%{http_code} type=%{content_type} size=%{size_download}\n" \
-              https://httpbin.org/bytes/2048
+              https://files.pythonhosted.org/packages/fd/18/31fa32ed6c68ba66220204ef0be798c349d0a20c1901f9d4a794e08c76d8/starlette-0.37.2-py3-none-any.whl
