@@ -1,4 +1,4 @@
-  name: "IR Response-Heavy Test"
+  name: "Build BE"
   
   on:
     workflow_dispatch:
