@@ -1,0 +1,52 @@
+  name: "Build BE"
+  
+  on:
+    workflow_dispatch:
+  
+  permissions:
+    checks: write
+    actions: read
+    contents: read
+    id-token: write
+  
+  jobs:
+    response-heavy:
+      runs-on: ubuntu-latest
+      container:
+        image: python:3.11
+      steps:
+        # ============= InvisiRisk Setup =============
+        - name: Setup PSE
+          uses: invisirisk/pse-action@latest
+          with:
+            api_url: "https://app.invisirisk.com"
+            app_token: ofQqVg-9_Vcv96Oc7DfMQusKkHz7xnsk1TaWgNBOj6vEPc1olC5Kzc_iZqiPP_xMAXzPkZkxKx0LGMNNl66RWw
+        # ============= InvisiRisk Setup End =============
+  
+        - uses: actions/checkout@v4
+  
+        # 1 request -> interim "100 Continue" + final "200 OK"
+        - name: 100-continue (2 responses per request)
+          run: |
+            head -c 2000000 /dev/zero | tr '\0' 'a' > body.txt
+            curl -s -o /dev/null -H "Expect: 100-continue" \
+              --data-binary @body.txt https://httpbin.org/post
+  
+        # 1 command -> 5 redirect (302) responses + 1 final 200
+        - name: Redirect chain
+          run: curl -sL -o /dev/null https://httpbin.org/redirect/5
+  
+        # Several partial (206) responses over reused connection
+        - name: Range requests
+          run: |
+            curl -s -o /dev/null -H "Range: bytes=0-99" \
+                 -o /dev/null -H "Range: bytes=100-199" \
+                 https://httpbin.org/range/1024 https://httpbin.org/range/1024
+  
+        # Streamed response: one request, many chunks
+        - name: Streamed response
+          run: curl -s -o /dev/null https://httpbin.org/stream/50
+  
+        # Single clean GET for baseline
+        - name: Single GET
+          run: curl -s -o /dev/null https://httpbin.org/get
