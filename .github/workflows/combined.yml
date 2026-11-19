@@ -1,4 +1,4 @@
-name: "Combined Multi-Stage Deployment- pranesh"
+name: "Combined Multi-Stage Deployment"
 
 on:
   workflow_dispatch:
