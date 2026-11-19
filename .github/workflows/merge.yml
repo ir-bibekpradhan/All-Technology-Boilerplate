@@ -1,15 +1,15 @@
-name: "IR Vulnerable Package Test"
+name: "IR  Package Test"
   
-  on:
-    workflow_dispatch:
+on:
+  workflow_dispatch:
   
-  permissions:
+permissions:
     checks: write
     actions: read
     contents: read
     id-token: write
   
-  jobs:
+jobs:
     vulnerable-package:
       runs-on: ubuntu-latest
       container:
