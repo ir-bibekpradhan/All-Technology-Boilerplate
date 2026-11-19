@@ -1,4 +1,4 @@
-  name: "IR Minimal Request Test"
+  name: "IR Response Policy Test"
   
   on:
     workflow_dispatch:
@@ -10,26 +10,20 @@
     id-token: write
   
   jobs:
-    minimal-request:
+    response-policy:
       runs-on: ubuntu-latest
       container:
         image: python:3.11
       steps:
-        # ============= InvisiRisk Setup =============
         - name: Setup PSE
           uses: invisirisk/pse-action@latest
           with:
             api_url: "https://app.invisirisk.com"
             app_token: ofQqVg-9_Vcv96Oc7DfMQusKkHz7xnsk1TaWgNBOj6vEPc1olC5Kzc_iZqiPP_xMAXzPkZkxKx0LGMNNl66RWw
-        # ============= InvisiRisk Setup End =============
   
-        # No checkout, no apt-get, no pip: these each add many requests.
-  
-        # 1 request -> "100 Continue" + "200 OK"
-        - name: One request, two responses
+        # 1 request -> response is 2048 bytes, type application/octet-stream
+        - name: One request with a response the policy can match
           run: |
-            head -c 1000000 /dev/zero | tr '\0' 'a' > body.txt
-            curl -v --http1.1 -o /dev/null \
-              -H "Expect: 100-continue" \
-              --data-binary @body.txt \
-              https://httpbin.org/post 2>&1 | grep -E "^< HTTP/"
+            curl -sS -o out.bin \
+              -w "status=%{http_code} type=%{content_type} size=%{size_download}\n" \
+              https://httpbin.org/bytes/2048
