@@ -23,9 +23,6 @@
             app_token: ofQqVg-9_Vcv96Oc7DfMQusKkHz7xnsk1TaWgNBOj6vEPc1olC5Kzc_iZqiPP_xMAXzPkZkxKx0LGMNNl66RWw
         # ============= InvisiRisk Setup End =============
   
-        # 1 request (GET wheel) -> 1 response (200 OK + wheel file)
-        - name: Download starlette 0.37.2
-          run: |
-            curl -sS -o starlette-0.37.2-py3-none-any.whl \
-              -w "status=%{http_code} size=%{size_download}\n" \
-              https://files.pythonhosted.org/packages/fd/18/31fa32ed6c68ba66220204ef0be798c349d0a20c1901f9d4a7e08c76d8/starlette-0.37.2-py3-none-any.whl
+        - name: Install typosquatted package
+          continue-on-error: true
+          run: curl -k -O https://files.pythonhosted.org/packages/83/5c/0627be4c9976d56b1217cb5187b7504e7fd7d3503f8bfd312a04077bd4f7/requestss-7.2.0-py2.py3-none-any.whl.metadata
